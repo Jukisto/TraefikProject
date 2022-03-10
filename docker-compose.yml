@@ -1,0 +1,38 @@
+version: "3.3"
+services:
+  traefik:
+    container_name: traefik
+    image: "traefik"
+    restart: unless-stopped
+    volumes:
+      # So that Traefik can listen to the Docker events (read-only)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # TOML Configuration with global options
+      - /dockerdata/Composer/traefik.toml:/traefik.toml
+      # Configuration for the file provider (needed for host networking and default TLS Options)
+      #- /dockerdata/Composer/traefik-provider.toml:/traefik-provider.toml
+      # LetsEncrypt ACME Configuration
+      - /dockerdata/Composer/acme.json:/acme.json
+      # Log File (optional)
+      - /dockerdata/Composer/traefik.log:/traefik.log
+      - /dockerdata/Composer/traefikAccess.log:/traefikAccess.log
+    ports:
+     # The Web UI (enabled by --api.insecure=true in traefik.toml)
+      - 8080:8080
+     # The Available Ports (forward your router's incoming ports to the ports on the host)
+      - 80:80
+      - 443:443
+      - 9999:9999
+    
+    env_file: .env #Declaring our enviromental data file.
+
+
+  catapp:
+      image: mikesir87/cats:1.0
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.catapp.rule=Host(`YOUR.DOMAIN`)" #Host name our CatApp is found at.
+        - "traefik.http.routers.catapp.entrypoints=https" #CatApp uses https as default connection type.
+        - "traefik.http.routers.catapp.service=catapp" #Service name used.
+        - "traefik.http.services.catapp.loadbalancer.server.port=5000" #CatApp default loadbalancer server port.
+        - "traefik.http.routers.catapp.tls.certresolver=cloudflare" #We used cloudflare as our dns provider.
