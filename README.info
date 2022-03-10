@@ -1,3 +1,10 @@
+This is a small project we did as an assigment at Häme University of Applied Sciences
+
+Made by Jere Eskelinen, Saana Korpinen and Oliver Parkkonen
+
+
+----------------------------------------------------------------------------------------
+
 Before starting the stack, install required containers in docker from dockerhub:
 
   $docker pull traefik
@@ -23,8 +30,10 @@ To shutdown the stack:
 
   $sudo docker-compose down
 
-Thank you!
+
+----------------------------------------------------------------------------------------
 
 
+Thank you for checking out!
 
 -Jere, Saana, Oliver
