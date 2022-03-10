@@ -1,18 +1,30 @@
 Before starting the stack, install required containers in docker from dockerhub:
 
-$docker pull traefik
-$docker pull mikesir87/cats
+  $docker pull traefik
+  $docker pull mikesir87/cats
 
 Delete and replace acme.json file with a new one with following code:
 
-$sudo rm acme.json
-$sudo touch acme.json
-$sudo chmod 600 acme.json
+  $sudo rm acme.json
+  $sudo touch acme.json
+  $sudo chmod 600 acme.json
+
+Leave the file empty. Required data is auto-generated once you start the stack first time.
 
 Rename env.sample file as ".env" and replace the placeholder credentials with your own.
 
 Replace the required information inside docker-compose.yml and traefik.toml files with your own domains, ports, emails etc.
 
+Start up the stack with:
+
+  $sudo docker-compose up -d
+
+To shutdown the stack:
+
+  $sudo docker-compose down
+
 Thank you!
+
+
 
 -Jere, Saana, Oliver
